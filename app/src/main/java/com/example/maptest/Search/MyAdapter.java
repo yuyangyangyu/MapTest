@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +28,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     private List<String> mlist;
     private Context context;
     private MyDataBaseHelper Data;//读取
-    //private MyDataBaseHelper Data_1;//存储
-
     static class ViewHolder extends RecyclerView.ViewHolder{
         View click;
         private TextView textView;

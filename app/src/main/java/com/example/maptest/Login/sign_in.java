@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.maptest.AboutMe.AboutMe;
 import com.example.maptest.Map.MapActivity;
+import com.example.maptest.Plan.Plan;
 import com.example.maptest.R;
 import com.example.maptest.SearchPoi.SearchPoi;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -72,7 +73,8 @@ public class sign_in extends AppCompatActivity implements View.OnClickListener{
                 startActivity(intent2);
                 break;
             case R.id.four:
-                //Intent intent3=new Intent(sign_in.this,)
+                Intent intent3=new Intent(sign_in.this, com.example.maptest.Plan.Plan.class);
+                startActivity(intent3);
                 break;
             case R.id.five:
                 Intent intent4=new Intent(sign_in.this, AboutMe.class);
