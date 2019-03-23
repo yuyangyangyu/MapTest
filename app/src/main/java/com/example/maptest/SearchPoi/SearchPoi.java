@@ -15,6 +15,7 @@ import android.widget.EditText;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
@@ -26,6 +27,7 @@ import com.example.maptest.R;
 
 public class SearchPoi extends AppCompatActivity {
     private EditText name;
+    private EditText name_1;
     private Button search;
     private MapView Poimap;
     private PoiInfo info;
@@ -39,17 +41,19 @@ public class SearchPoi extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("地点搜索");
         actionBar.show();
-        name=findViewById(R.id.name);
+        name=findViewById(R.id.name);//c城市
         search=findViewById(R.id.search_1);
-        Poimap=findViewById(R.id.Poimap);
         webView=findViewById(R.id.context);
+        name_1=findViewById(R.id.name_1);//
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mpoisearch.setOnGetPoiSearchResultListener(listener_1);
-                mpoisearch.searchPoiDetail(new PoiDetailSearchOption().poiUids("480b24d065a865e89cec2b18"));
-                Log.v("q","成功");
-
+                mpoisearch.searchInCity(new PoiCitySearchOption()
+                        .pageCapacity(30)
+                        .city(name.getText().toString()) //必填
+                        .keyword(name_1.getText().toString()) //必填
+                        .pageNum(0));
             }
         });
     }
@@ -57,6 +61,8 @@ public class SearchPoi extends AppCompatActivity {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
             info=poiResult.getAllPoi().get(0);
+            String url=info.getUid();
+            mpoisearch.searchPoiDetail(new PoiDetailSearchOption().poiUids(url));
 
         }
 
@@ -67,16 +73,11 @@ public class SearchPoi extends AppCompatActivity {
 
         @Override
         public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
-            Log.v("a", String.valueOf(poiDetailSearchResult.status));
             webView.getSettings().setJavaScriptEnabled(true);
             WebSettings settings = webView.getSettings();
             settings.setDomStorageEnabled(true);//开启DOM
             webView.setWebViewClient(new WebViewClient());
-            webView.loadUrl("" +
-                    "http://api.map.baidu.com/place/detail?uid=9396496511a7b84079b55c1e&output=html&source=placeapi_v2");
-            Log.v("aa", String.valueOf(poiDetailSearchResult.getPoiDetailInfoList().get(0).detailUrl));
-
-
+            webView.loadUrl(poiDetailSearchResult.getPoiDetailInfoList().get(0).detailUrl);
         }
 
         @Override
