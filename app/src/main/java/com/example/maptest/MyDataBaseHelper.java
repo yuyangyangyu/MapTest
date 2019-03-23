@@ -11,6 +11,15 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
         +"id integer primary key autoincrement,"
         +"name text,"
         +"uid text)";
+    // 建立第二张数据表
+    public static final String Plan_1="create table Category("
+            +"id integer primary key autoincrement,"
+            +"name text,"
+            +"uid text)";
+
+
+
+    //
     private Context mcontext;
 
     public MyDataBaseHelper(Context context,String name,SQLiteDatabase.CursorFactory factory, int version) {
@@ -21,11 +30,15 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Plan);
+        db.execSQL(Plan_1);
         Toast.makeText(mcontext,"cteate successful",Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table if exists Book");
+        db.execSQL("drop table if exists Category");
+        onCreate(db);
 
     }
 }

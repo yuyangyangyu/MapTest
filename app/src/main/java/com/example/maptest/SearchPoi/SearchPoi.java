@@ -29,11 +29,9 @@ public class SearchPoi extends AppCompatActivity {
     private EditText name;
     private EditText name_1;
     private Button search;
-    private MapView Poimap;
     private PoiInfo info;
     WebView webView;//浏览器
-    //创建搜索实例
-    PoiSearch mpoisearch=PoiSearch.newInstance();
+    PoiSearch mpoisearch=PoiSearch.newInstance(); //创建搜索实例
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +42,7 @@ public class SearchPoi extends AppCompatActivity {
         name=findViewById(R.id.name);//c城市
         search=findViewById(R.id.search_1);
         webView=findViewById(R.id.context);
-        name_1=findViewById(R.id.name_1);//
+        name_1=findViewById(R.id.name_1);//关键词
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +61,6 @@ public class SearchPoi extends AppCompatActivity {
             info=poiResult.getAllPoi().get(0);
             String url=info.getUid();
             mpoisearch.searchPoiDetail(new PoiDetailSearchOption().poiUids(url));
-
         }
 
         @Override
@@ -79,7 +76,6 @@ public class SearchPoi extends AppCompatActivity {
             webView.setWebViewClient(new WebViewClient());
             webView.loadUrl(poiDetailSearchResult.getPoiDetailInfoList().get(0).detailUrl);
         }
-
         @Override
         public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
 

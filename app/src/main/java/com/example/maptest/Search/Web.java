@@ -39,7 +39,7 @@ public class Web extends AppCompatActivity {
         Intent intent=getIntent();
         String adress =intent.getStringExtra("adress");//获取名称
         //查询数据库是否存在
-        data_name=new MyDataBaseHelper(this,"plan.db",null,1);
+        data_name=new MyDataBaseHelper(this,"plan.db",null,2);
         SQLiteDatabase DB=data_name.getWritableDatabase();
         Cursor cursor=DB.query("Book",new String[]{"name","uid"},"name=?",new String[]{adress},
                 null,null,null);

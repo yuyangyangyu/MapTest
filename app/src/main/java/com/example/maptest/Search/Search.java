@@ -1,9 +1,9 @@
 package com.example.maptest.Search;
 
 import android.content.ContentValues;
-import android.database.Cursor;
+
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,8 +39,6 @@ public class Search extends AppCompatActivity {
     private MapView mapView=null;
     //数据库测试
     private MyDataBaseHelper daHelper;//该数据库为搜索结果服务，在搜索结束时应该释放
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,12 +50,10 @@ public class Search extends AppCompatActivity {
         city=findViewById(R.id.city);
         mapView=findViewById(R.id.map);
         //数据库测试//////////////
-        daHelper=new MyDataBaseHelper(this,"plan.db",null,1);
+        daHelper=new MyDataBaseHelper(this,"plan.db",null,2);
         daHelper.getWritableDatabase();
-
         poiSearch=PoiSearch.newInstance();//创建搜索实例
         bt_2.setOnClickListener(new View.OnClickListener() {
-
             //创建搜索条件
             @Override
             public void onClick(View v) {
@@ -72,28 +68,22 @@ public class Search extends AppCompatActivity {
                             .keyword("旅游") //必填
                             .pageNum(0));
                     mapView.setVisibility(View.VISIBLE);
-
                 }
             }
         });
-
     }
     //创建POI检索监听
     OnGetPoiSearchResultListener listener=new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
             mlist.clear();
-
             SQLiteDatabase db = daHelper.getWritableDatabase();
             ContentValues contentValues=new ContentValues();
             Log.v("sss", String.valueOf(poiResult.getAllPoi()));
             //临时数据库，删除数据并重置id
-
             db.delete("Book", null, null);
             db.execSQL("update sqlite_sequence set seq=0 where name='Book'");
             //删除数据库中的数据
-
-
             ///////
             for (int i=0;i<20;i++){
                 mlist.add(String.valueOf(poiResult.getAllPoi().get(i).name));
