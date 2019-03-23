@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/drawee_img"
+            fresco:roundAsCircle="true"
+            fresco:roundedCornerRadius="20dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+        <TextView
+            android:paddingTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="版本：V1.5"
+            android:textSize="18sp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="vertical"
+        android:paddingTop="80dp">
+
+        <RelativeLayout
+            android:id="@+id/one_about"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="30dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                fresco:roundAsCircle="true"
+                fresco:roundedCornerRadius="20dp" />
+
+            <TextView
+                android:id="@+id/http"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_toRightOf="@id/icon"
+                android:paddingLeft="5dp"
+                android:text="GitHub："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/http"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="https://github.com/yuyangyangyu" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_margin="35dp">
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/icon_1"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                fresco:roundAsCircle="true"
+                fresco:roundedCornerRadius="20dp" />
+
+            <TextView
+                android:id="@+id/weibo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_toRightOf="@id/icon_1"
+                android:paddingLeft="5dp"
+                android:text="微博："
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/weibo"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="https://weibo.com/u/5015819282" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
