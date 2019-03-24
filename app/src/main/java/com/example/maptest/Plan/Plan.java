@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.maptest.MyDataBaseHelper;
 import com.example.maptest.R;
@@ -45,6 +46,18 @@ public class Plan extends AppCompatActivity {
             LinearLayoutManager manager=new LinearLayoutManager(this);
             recyclerView.setLayoutManager(manager);
             MyAdapter adapter=new MyAdapter(list);
+            adapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+                @Override
+                public void onClick(View view, int i) {
+                    //Toast.makeText(view.getContext(),"ssss",Toast.LENGTH_SHORT).show();
+                }
+            });
+            adapter.setOnItemLongClickListener(new MyAdapter.OnItemLongClickListener() {
+                @Override
+                public void onLongClick(View view, int i) {
+                    Toast.makeText(view.getContext(),"ssss",Toast.LENGTH_SHORT).show();
+                }
+            });
             recyclerView.setAdapter(adapter);
         }
         else {
