@@ -35,6 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<com.example.maptest.Plan.MyA
     private OnItemLongClickListener onItemLongClickListener=null;
 
     public void setOnItemLongClickListener(OnItemLongClickListener listener){
+
         this.onItemLongClickListener=listener;
     }
 
@@ -54,14 +55,14 @@ public class MyAdapter extends RecyclerView.Adapter<com.example.maptest.Plan.MyA
     }
 
     @Override
-    public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, final  int i) {
+    public MyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup,  int i) {
         View view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.plan_item,viewGroup,false);
-         ViewHolder holder=new ViewHolder(view);
+        final ViewHolder holder=new ViewHolder(view);
         if (mOnItemClickListener != null) {
             holder.click.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClickListener.onClick(v, i);
+                    mOnItemClickListener.onClick(v, holder.getAdapterPosition());
                 }
             });
         }
@@ -69,7 +70,7 @@ public class MyAdapter extends RecyclerView.Adapter<com.example.maptest.Plan.MyA
             holder.click.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    onItemLongClickListener.onLongClick(v,i);
+                    onItemLongClickListener.onLongClick(v,holder.getAdapterPosition());
                     return true;
                 }
             });
