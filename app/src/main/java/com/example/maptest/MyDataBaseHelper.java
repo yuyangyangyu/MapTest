@@ -8,14 +8,18 @@ import android.widget.Toast;
 public class MyDataBaseHelper extends SQLiteOpenHelper {
     //建立数据库
     public static final String Plan="create table Book("
-        +"id integer primary key autoincrement,"
-        +"name text,"
-        +"uid text)";
+            +"id integer primary key autoincrement,"
+            +"name text,"
+            +"uid text,"
+            +"latitude text,"
+            +"longtitude text)";
     // 建立第二张数据表
     public static final String Plan_1="create table Category("
             +"id integer primary key autoincrement,"
             +"name text,"
-            +"uid text)";
+            +"uid text,"
+            +"latitude text,"
+            +"longtitude text)";
 
 
 

@@ -3,6 +3,7 @@ import android.content.Context;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -19,8 +20,12 @@ public class MyLocationListener extends BDAbstractLocationListener implements Se
     private android.hardware.Sensor sensor;
     private float lastX;
 
-    private double x;
-    private double y;
+    public static double x;
+    public static double y;
+
+    public MyLocationListener(){
+
+    }
 
     public MyLocationListener(MapView mapView,Context context){
         this.mMapView=mapView;
@@ -40,6 +45,7 @@ public class MyLocationListener extends BDAbstractLocationListener implements Se
                 .longitude(location.getLongitude()).build();
        x=location.getLatitude();
        y=location.getLongitude();
+        Log.v("sss", String.valueOf(x));
         mBaiduMap.setMyLocationData(locData);
     }
 

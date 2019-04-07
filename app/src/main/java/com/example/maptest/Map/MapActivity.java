@@ -1,7 +1,7 @@
 package com.example.maptest.Map;
 
 import android.content.Context;
-import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,7 +18,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.example.maptest.R;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.drawee.view.SimpleDraweeView;
 public class MapActivity extends AppCompatActivity {
     private MapView mapView;
     private BaiduMap mBaiduMap;
@@ -29,15 +28,13 @@ public class MapActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fresco.initialize(this);
-        setContentView(R.layout.activity_map);//在此方法之前不能再添加
+        setContentView(R.layout.activity_map);
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("定位");
         actionBar.show();
         mapView=findViewById(R.id.bmapView);
 
-        SimpleDraweeView draweeView =findViewById(R.id.T);
-        Uri uri = Uri.parse("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553152662564&di=de374a0a7ccefd299733ea9ff339e88a&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2Fd371255bc403f9113296f39f5c0640823f3943ad46c16-nCKVRM_fw658");
-        draweeView.setImageURI(uri);
+        FloatingActionButton draweeView =findViewById(R.id.T);
         draweeView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +42,6 @@ public class MapActivity extends AppCompatActivity {
                 builder.zoom(18.0f);
                 mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
                 mLocationClient.start();
-
             }
         });
         //自定义图标

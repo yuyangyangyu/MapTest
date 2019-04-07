@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
@@ -24,6 +26,8 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.example.maptest.GetLocation;
+import com.example.maptest.Map.MyLocationListener;
 import com.example.maptest.MyDataBaseHelper;
 import com.example.maptest.R;
 
@@ -31,6 +35,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search extends AppCompatActivity {
+
+    public LocationClient mlocationclient = null;
+
+    private GetLocation myListener = new GetLocation();
+
+
+
+
+
     private EditText city;//城市
     private Button bt_2;
     private PoiSearch poiSearch;
@@ -43,6 +56,18 @@ public class Search extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        mlocationclient=new LocationClient(getApplicationContext());
+        mlocationclient.registerLocationListener(myListener);
+        LocationClientOption option =new LocationClientOption();
+        option.setScanSpan(0);
+        mlocationclient.setLocOption(option);
+        mlocationclient.start();
+        Log.v("bbb", String.valueOf(MyLocationListener.x));
+
+
+
+
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("周边搜索");
         actionBar.show();
@@ -65,7 +90,7 @@ public class Search extends AppCompatActivity {
                     poiSearch.searchInCity(new PoiCitySearchOption()
                             .pageCapacity(30)
                             .city(city.getText().toString()) //必填
-                            .keyword("旅游") //必填
+                            .keyword("旅游景点") //必填
                             .pageNum(0));
                     mapView.setVisibility(View.VISIBLE);
                 }
@@ -76,6 +101,8 @@ public class Search extends AppCompatActivity {
     OnGetPoiSearchResultListener listener=new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
+
+            //显示地点的经纬
             mlist.clear();
             SQLiteDatabase db = daHelper.getWritableDatabase();
             ContentValues contentValues=new ContentValues();
@@ -90,6 +117,14 @@ public class Search extends AppCompatActivity {
                 //向数据库添加数据
                 contentValues.put("name",String.valueOf(poiResult.getAllPoi().get(i).name));
                 contentValues.put("uid",String.valueOf(poiResult.getAllPoi().get(i).uid));
+                //新增对经纬度的获取
+
+                contentValues.put("latitude",poiResult.getAllPoi().get(i).getLocation().latitude);
+                contentValues.put("longtitude",poiResult.getAllPoi().get(i).getLocation().longitude);
+
+
+
+
                 db.insert("Book",null,contentValues);
                 contentValues.clear();
 

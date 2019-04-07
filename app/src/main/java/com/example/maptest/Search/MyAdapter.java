@@ -79,12 +79,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                                 null,null,null);
                         cursor.moveToFirst();
                         String uid=cursor.getString(cursor.getColumnIndex("uid"));
+
+
+                        String latitude=cursor.getString(cursor.getColumnIndex("latitude"));
+                        String longtitude=cursor.getColumnName(cursor.getColumnIndex("longtitude"));
+
+
                         cursor.close();
                         //Log.v("s",uid);
                         ContentValues contentValues=new ContentValues();
                        // 向数据库添加数据
                         contentValues.put("name",M);
                         contentValues.put("uid",uid);
+
+
+                        contentValues.put("latitude",latitude);
+                        contentValues.put("longtitude",longtitude);
+
                         DB.insert("Category",null,contentValues);
                         contentValues.clear();
                     }

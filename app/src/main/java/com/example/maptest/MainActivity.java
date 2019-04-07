@@ -127,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
 
     AlertDialog mPermissionDialog;
     String mPackName = "com.example.maptest";
-
     private void showPermissionDialog() {
         if (mPermissionDialog == null) {
             mPermissionDialog = new AlertDialog.Builder(this)
