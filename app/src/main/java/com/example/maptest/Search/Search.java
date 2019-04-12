@@ -37,12 +37,8 @@ import java.util.List;
 public class Search extends AppCompatActivity {
 
     public LocationClient mlocationclient = null;
-
+    //自身位置的确认
     private GetLocation myListener = new GetLocation();
-
-
-
-
 
     private EditText city;//城市
     private Button bt_2;
@@ -63,10 +59,6 @@ public class Search extends AppCompatActivity {
         option.setScanSpan(0);
         mlocationclient.setLocOption(option);
         mlocationclient.start();
-        Log.v("bbb", String.valueOf(MyLocationListener.x));
-
-
-
 
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("周边搜索");

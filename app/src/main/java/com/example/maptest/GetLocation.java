@@ -20,6 +20,6 @@ public class GetLocation extends BDAbstractLocationListener {
         //获取经纬度坐标类型，以LocationClientOption中设置过的坐标类型为准
 
         int errorCode = location.getLocType();
-        Log.v("sss", String.valueOf(latitude));
+        Log.v("sss", "hahahaha");
     }
 }

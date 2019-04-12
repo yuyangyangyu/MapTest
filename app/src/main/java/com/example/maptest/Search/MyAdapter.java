@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
             }
         });
-        //长按事件
+        /**
+         * 长按添加事件
+         */
         holder.click.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View v) {
@@ -75,7 +78,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                     public void onClick(DialogInterface dialog, int which) {
                         Data = new MyDataBaseHelper(v.getContext(),"plan.db",null,2);
                         SQLiteDatabase DB=Data.getWritableDatabase();
-                        Cursor cursor=DB.query("Book",new String[]{"name","uid"},"name=?",new String[]{M},
+                        Cursor cursor=DB.query("Book",new String[]{"name","uid","latitude","longtitude"},"name=?",new String[]{M},
                                 null,null,null);
                         cursor.moveToFirst();
                         String uid=cursor.getString(cursor.getColumnIndex("uid"));
@@ -83,6 +86,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
                         String latitude=cursor.getString(cursor.getColumnIndex("latitude"));
                         String longtitude=cursor.getColumnName(cursor.getColumnIndex("longtitude"));
+
+                        Log.v("sss",latitude);
 
 
                         cursor.close();
