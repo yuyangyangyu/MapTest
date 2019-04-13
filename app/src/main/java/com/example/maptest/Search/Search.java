@@ -14,10 +14,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
@@ -26,10 +26,12 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.example.maptest.GetLocation;
 import com.example.maptest.Map.MyLocationListener;
 import com.example.maptest.MyDataBaseHelper;
 import com.example.maptest.R;
+import com.example.maptest.SearchPoi.Distance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        //最开始监听位置信息
         mlocationclient=new LocationClient(getApplicationContext());
         mlocationclient.registerLocationListener(myListener);
         LocationClientOption option =new LocationClientOption();
@@ -60,12 +63,19 @@ public class Search extends AppCompatActivity {
         mlocationclient.setLocOption(option);
         mlocationclient.start();
 
+
+
+
+
         ActionBar actionBar=getSupportActionBar();
         actionBar.setTitle("周边搜索");
         actionBar.show();
         bt_2=findViewById(R.id.bt);
         city=findViewById(R.id.city);
         mapView=findViewById(R.id.map);
+
+
+
         //数据库测试//////////////
         daHelper=new MyDataBaseHelper(this,"plan.db",null,2);
         daHelper.getWritableDatabase();
@@ -78,6 +88,7 @@ public class Search extends AppCompatActivity {
                     Toast.makeText(Search.this,"未输入",Toast.LENGTH_SHORT).show();
                 }
                 else {
+                    //Log.v("sss", String.valueOf(GetLocation.latitude)+"  "+GetLocation.longtitude);
                     poiSearch.setOnGetPoiSearchResultListener(listener);
                     poiSearch.searchInCity(new PoiCitySearchOption()
                             .pageCapacity(30)
@@ -114,6 +125,12 @@ public class Search extends AppCompatActivity {
                 contentValues.put("latitude",poiResult.getAllPoi().get(i).getLocation().latitude);
                 contentValues.put("longtitude",poiResult.getAllPoi().get(i).getLocation().longitude);
 
+                LatLng var1 =new LatLng(poiResult.getAllPoi().get(i).getLocation().latitude,
+                        poiResult.getAllPoi().get(i).getLocation().longitude);
+                LatLng var2=new LatLng(GetLocation.latitude,GetLocation.longtitude);
+
+                Distance distance=new Distance(var1,var2);
+                Log.v("sss", String.valueOf(distance.Long()/1000));
 
 
 
