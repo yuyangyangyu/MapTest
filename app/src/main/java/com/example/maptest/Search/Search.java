@@ -45,7 +45,7 @@ public class Search extends AppCompatActivity {
     private EditText city;//城市
     private Button bt_2;
     private PoiSearch poiSearch;
-    private List<String> mlist=new ArrayList<>();
+    private List<PliceList> mlist=new ArrayList<>();
     private MyAdapter adapter;
     private MapView mapView=null;
     //数据库测试
@@ -116,7 +116,13 @@ public class Search extends AppCompatActivity {
             //删除数据库中的数据
             ///////
             for (int i=0;i<20;i++){
-                mlist.add(String.valueOf(poiResult.getAllPoi().get(i).name));
+
+                LatLng var1 =new LatLng(poiResult.getAllPoi().get(i).getLocation().latitude,
+                        poiResult.getAllPoi().get(i).getLocation().longitude);
+                LatLng var2=new LatLng(GetLocation.latitude,GetLocation.longtitude);
+
+                Distance distance=new Distance(var1,var2);
+                mlist.add(new PliceList(poiResult.getAllPoi().get(i).name,String.valueOf(distance.Long()/1000)));
                 //向数据库添加数据
                 contentValues.put("name",String.valueOf(poiResult.getAllPoi().get(i).name));
                 contentValues.put("uid",String.valueOf(poiResult.getAllPoi().get(i).uid));
@@ -125,11 +131,7 @@ public class Search extends AppCompatActivity {
                 contentValues.put("latitude",poiResult.getAllPoi().get(i).getLocation().latitude);
                 contentValues.put("longtitude",poiResult.getAllPoi().get(i).getLocation().longitude);
 
-                LatLng var1 =new LatLng(poiResult.getAllPoi().get(i).getLocation().latitude,
-                        poiResult.getAllPoi().get(i).getLocation().longitude);
-                LatLng var2=new LatLng(GetLocation.latitude,GetLocation.longtitude);
 
-                Distance distance=new Distance(var1,var2);
                 Log.v("sss", String.valueOf(distance.Long()/1000));
 
 

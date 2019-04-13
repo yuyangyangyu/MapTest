@@ -26,20 +26,22 @@ import com.example.maptest.R;
 import java.util.List;
 //增加点击事件
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private List<String> mlist;
+    private List<PliceList> mlist;
     private Context context;
     private MyDataBaseHelper Data;//读取
     static class ViewHolder extends RecyclerView.ViewHolder{
         View click;
         private TextView textView;
+        private TextView Distance_view;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             click=itemView;
             textView=itemView.findViewById(R.id.item_theme);
+            Distance_view=itemView.findViewById(R.id.Distance);
         }
     }
 
-    public MyAdapter(Context context,List<String> mlist) {
+    public MyAdapter(Context context,List<PliceList> mlist) {
         this.mlist=mlist;
         this.context=context;
     }
@@ -54,7 +56,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 int position=holder.getAdapterPosition();
-                String M=mlist.get(position);
+                String M=mlist.get(position).getName();
                 Toast.makeText(v.getContext(),"you click"+M,Toast.LENGTH_SHORT).show();
                 Intent intent_web = new Intent(v.getContext(),Web.class);
                 intent_web.putExtra("adress",M);
@@ -69,7 +71,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public boolean onLongClick(final View v) {
                 int position=holder.getAdapterPosition();
-                final String M=mlist.get(position);
+                final String M=mlist.get(position).getName();
                 AlertDialog.Builder builder=new AlertDialog.Builder(v.getContext());
                 builder.setMessage("是否将该地点加入行程中?");
                 builder.setCancelable(true);
@@ -121,8 +123,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder viewHolder, int i) {
-        String name=mlist.get(i);
+        String name=mlist.get(i).getName();
+        String Distance=mlist.get(i).getDistance();
         viewHolder.textView.setText(name);
+        viewHolder.Distance_view.setText(Distance);
+
     }
 
     @Override

@@ -23,10 +23,6 @@ public class MyLocationListener extends BDAbstractLocationListener implements Se
     public static double x;
     public static double y;
 
-    public MyLocationListener(){
-
-    }
-
     public MyLocationListener(MapView mapView,Context context){
         this.mMapView=mapView;
         this.mBaiduMap=mapView.getMap();
