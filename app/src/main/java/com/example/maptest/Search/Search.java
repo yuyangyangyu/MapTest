@@ -116,6 +116,7 @@ public class Search extends AppCompatActivity {
             db.execSQL("update sqlite_sequence set seq=0 where name='Book'");
             //删除数据库中的数据
             ///////
+            Log.v("sss", String.valueOf(poiResult.getAllPoi()));
             for (int i =0;i<20;i++){
                 //计算距离
                 Log.v("sss", String.valueOf(poiResult.status));

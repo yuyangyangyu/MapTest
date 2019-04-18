@@ -49,7 +49,7 @@ public class AboutMe extends AppCompatActivity implements View.OnClickListener {
 
 
         SimpleDraweeView draweeView =findViewById(R.id.drawee_img);
-        Uri uri = Uri.parse("http://b-ssl.duitang.com/uploads/item/201611/06/20161106015253_Jtxzj.jpeg");
+        Uri uri = Uri.parse("res://drawable/"+R.drawable.touxiang);
         draweeView.setImageURI(uri);
         draweeView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +62,7 @@ public class AboutMe extends AppCompatActivity implements View.OnClickListener {
         //github图标
 
         SimpleDraweeView draweeView1=findViewById(R.id.icon);
-        Uri uri1=Uri.parse("http://bpic.588ku.com/element_origin_min_pic/00/86/44/4056eb5f135855d.jpg");
+        Uri uri1=Uri.parse("res://drawable/"+R.drawable.github);
         draweeView1.setImageURI(uri1);
 
         draweeView1.setOnClickListener(new View.OnClickListener() {
