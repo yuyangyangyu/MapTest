@@ -3,6 +3,7 @@ package com.example.maptest.SearchPoi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,8 +20,6 @@ import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.example.maptest.R;
-
-
 public class SearchPoi extends AppCompatActivity {
     private EditText name;
     private EditText name_1;
@@ -63,7 +62,6 @@ public class SearchPoi extends AppCompatActivity {
         public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 
         }
-
         @Override
         public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
             webView.getSettings().setJavaScriptEnabled(true);
@@ -71,6 +69,7 @@ public class SearchPoi extends AppCompatActivity {
             settings.setDomStorageEnabled(true);//开启DOM
             webView.setWebViewClient(new WebViewClient());
             webView.loadUrl(poiDetailSearchResult.getPoiDetailInfoList().get(0).detailUrl);
+            Log.v("sss", String.valueOf(poiDetailSearchResult.getPoiDetailInfoList().get(0).getOverallRating()));
         }
         @Override
         public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {

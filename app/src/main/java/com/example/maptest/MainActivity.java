@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -35,10 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox checkBox;
     //关于权限的动态申请
     private String[] permissions=new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-    Manifest.permission.ACCESS_WIFI_STATE,Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.BODY_SENSORS,Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.INTERNET,Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_SETTINGS,Manifest.permission.WRITE_SETTINGS
+            Manifest.permission.BODY_SENSORS,
+            Manifest.permission.INTERNET,
+
     };
     private List<String> mpermissions =new ArrayList<>();//判断哪些权限没有得到授权，并放在其中
     private final int mrequestcode=100;//权限请求码
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (mpermissions.size()>0){
+            Log.v("sss","2222222");
             ActivityCompat.requestPermissions(this,permissions,mrequestcode);
         }
         else{
@@ -108,8 +109,10 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         boolean hasPermissionDismiss = false;//有权限没有通过
+
         if (mrequestcode==requestCode){
             for (int i=0;i<grantResults.length;i++){
+                Log.v("sss", String.valueOf(grantResults[i]));
                 if (grantResults[i]==-1){
                     hasPermissionDismiss=true;
                     break;

@@ -95,6 +95,7 @@ public class Search extends AppCompatActivity {
                             .city(city.getText().toString()) //必填
                             .keyword("旅游景点") //必填
                             .pageNum(0));
+                    //显示地图
                     mapView.setVisibility(View.VISIBLE);
                 }
             }
@@ -115,12 +116,12 @@ public class Search extends AppCompatActivity {
             db.execSQL("update sqlite_sequence set seq=0 where name='Book'");
             //删除数据库中的数据
             ///////
-            for (int i=0;i<20;i++){
-
-                LatLng var1 =new LatLng(poiResult.getAllPoi().get(i).getLocation().latitude,
+            for (int i =0;i<20;i++){
+                //计算距离
+                Log.v("sss", String.valueOf(poiResult.status));
+                LatLng var1 =new LatLng(poiResult.getAllPoi().get(0).getLocation().latitude,
                         poiResult.getAllPoi().get(i).getLocation().longitude);
                 LatLng var2=new LatLng(GetLocation.latitude,GetLocation.longtitude);
-
                 Distance distance=new Distance(var1,var2);
                 mlist.add(new PliceList(poiResult.getAllPoi().get(i).name,String.valueOf(distance.Long()/1000)));
                 //向数据库添加数据
@@ -132,7 +133,7 @@ public class Search extends AppCompatActivity {
                 contentValues.put("longtitude",poiResult.getAllPoi().get(i).getLocation().longitude);
 
 
-                Log.v("sss", String.valueOf(distance.Long()/1000));
+                //Log.v("sss", String.valueOf(distance.Long()/1000));
 
 
 

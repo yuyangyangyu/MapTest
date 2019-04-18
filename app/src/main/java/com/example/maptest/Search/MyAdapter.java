@@ -11,18 +11,14 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.maptest.MyDataBaseHelper;
 import com.example.maptest.R;
-
 import java.util.List;
 //增加点击事件
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
@@ -107,12 +103,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                         contentValues.clear();
                     }
                 });
-
-
-
-
-
-
                 builder.show();
                 //Toast.makeText(v.getContext(),"长按"+M,Toast.LENGTH_SHORT).show();
                 return true;
