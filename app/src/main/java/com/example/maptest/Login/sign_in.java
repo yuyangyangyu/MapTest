@@ -6,16 +6,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.maptest.AboutMe.AboutMe;
 import com.example.maptest.Map.MapActivity;
-import com.example.maptest.Plan.Plan;
 import com.example.maptest.R;
 import com.example.maptest.SearchPoi.SearchPoi;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+
 
 //添加按键映射到各个界面（后期需改为主页面）
 public class sign_in extends AppCompatActivity implements View.OnClickListener{
@@ -53,6 +54,10 @@ public class sign_in extends AppCompatActivity implements View.OnClickListener{
         SimpleDraweeView draweeView_1 =findViewById(R.id.DL);
         Uri uri = Uri.parse("https://b-ssl.duitang.com/uploads/item/201610/27/20161027112919_2LBMr.jpeg");
         draweeView_1.setImageURI(uri);
+
+
+
+
 
     }
 

@@ -33,8 +33,18 @@ import com.example.maptest.MyDataBaseHelper;
 import com.example.maptest.R;
 import com.example.maptest.SearchPoi.Distance;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class Search extends AppCompatActivity {
 
@@ -48,6 +58,8 @@ public class Search extends AppCompatActivity {
     private List<PliceList> mlist=new ArrayList<>();
     private MyAdapter adapter;
     private MapView mapView=null;
+
+    String Data=null;
     //数据库测试
     private MyDataBaseHelper daHelper;//该数据库为搜索结果服务，在搜索结束时应该释放
     @Override
@@ -88,93 +100,86 @@ public class Search extends AppCompatActivity {
                     Toast.makeText(Search.this,"未输入",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    //Log.v("sss", String.valueOf(GetLocation.latitude)+"  "+GetLocation.longtitude);
-                    poiSearch.setOnGetPoiSearchResultListener(listener);
-                    poiSearch.searchInCity(new PoiCitySearchOption()
-                            .pageCapacity(30)
-                            .city(city.getText().toString()) //必填
-                            .keyword("旅游景点") //必填
-                            .pageNum(0));
-                    //显示地图
-                    mapView.setVisibility(View.VISIBLE);
+                    final String city_name =city.getText().toString();
+                    SendMessage(city_name);
+                    while (Data==null);
+                    parse(Data);
+                    RecyclerView recyclerView = findViewById(R.id.result);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(Search.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    MyAdapter adapter = new MyAdapter(Search.this, mlist);
+                    recyclerView.setAdapter(adapter);
+
                 }
             }
         });
     }
     //创建POI检索监听
-    OnGetPoiSearchResultListener listener=new OnGetPoiSearchResultListener() {
-        @Override
-        public void onGetPoiResult(PoiResult poiResult) {
 
-            //显示地点的经纬
+    private void SendMessage(final  String city_name_1){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    OkHttpClient client =new OkHttpClient();
+                    Request request=new Request.Builder()
+                            .url(String.format("https://api.map.baidu.com/place/v2/search?query=景点&region=%s&output=json&ak=6aIUo3QkSTNxVTyC6ukIO5nXDSiYuLWD", city_name_1))
+                            .build();
+                    Response response=client.newCall(request).execute();
+                    Data=response.body().string();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+    private void parse(String data){
+        try {
+            JSONObject jsonObject=new JSONObject(data);
+            JSONArray jsonObject1=jsonObject.getJSONArray("results");
+            Log.v("sss", String.valueOf(jsonObject1.length()));
+            LatLng var2 =new LatLng(GetLocation.latitude,GetLocation.longtitude);
             mlist.clear();
             SQLiteDatabase db = daHelper.getWritableDatabase();
-            ContentValues contentValues=new ContentValues();
-            Log.v("sss", String.valueOf(poiResult.getAllPoi()));
+            ContentValues contentValues = new ContentValues();
             //临时数据库，删除数据并重置id
-            db.delete("Book", null, null);
+            db.delete("Book",null,null);
             db.execSQL("update sqlite_sequence set seq=0 where name='Book'");
-            //删除数据库中的数据
-            ///////
-            Log.v("sss", String.valueOf(poiResult.getAllPoi()));
-            for (int i =0;i<20;i++){
-                //计算距离
-                Log.v("sss", String.valueOf(poiResult.status));
-                LatLng var1 =new LatLng(poiResult.getAllPoi().get(0).getLocation().latitude,
-                        poiResult.getAllPoi().get(i).getLocation().longitude);
-                LatLng var2=new LatLng(GetLocation.latitude,GetLocation.longtitude);
+
+
+
+            for (int i=0;i<jsonObject1.length();i++){
+                JSONObject jsonObject2 =jsonObject1.getJSONObject(i);
+                Log.v("sss", String.valueOf(jsonObject2.getString("name")));
+                LatLng var1 =new LatLng((double)jsonObject2.getJSONObject("location").get("lat"),(double)jsonObject2.getJSONObject("location").get("lng"));
+
                 Distance distance=new Distance(var1,var2);
-                mlist.add(new PliceList(poiResult.getAllPoi().get(i).name,String.valueOf(distance.Long()/1000)));
+                PliceList pliceList =new PliceList(jsonObject2.getString("name"),String.format("%.2f", distance.Long()/1000));
+
                 //向数据库添加数据
-                contentValues.put("name",String.valueOf(poiResult.getAllPoi().get(i).name));
-                contentValues.put("uid",String.valueOf(poiResult.getAllPoi().get(i).uid));
+                contentValues.put("name",jsonObject2.getString("name"));
+                contentValues.put("uid",jsonObject2.getString("uid"));
                 //新增对经纬度的获取
 
-                contentValues.put("latitude",poiResult.getAllPoi().get(i).getLocation().latitude);
-                contentValues.put("longtitude",poiResult.getAllPoi().get(i).getLocation().longitude);
-
-
-                //Log.v("sss", String.valueOf(distance.Long()/1000));
+                contentValues.put("latitude", jsonObject2.getJSONObject("location").getString("lat"));
+                contentValues.put("longtitude", jsonObject2.getJSONObject("location").getString("lng"));
 
 
 
-                db.insert("Book",null,contentValues);
+
+                db.insert("Book", null, contentValues);
                 contentValues.clear();
 
-            }
-            Log.v("sss", String.valueOf(mlist));
-            RecyclerView recyclerView=findViewById(R.id.result);
-            LinearLayoutManager layoutManager=new LinearLayoutManager(Search.this);
 
-            recyclerView.setLayoutManager(layoutManager);
-            MyAdapter adapter=new MyAdapter(Search.this,mlist);
-            recyclerView.setAdapter(adapter);
 
-            //建筑物覆盖
-            if (poiResult.error== SearchResult.ERRORNO.NO_ERROR){
-                mapView.getMap().clear();
-                PoiOverlay poiOverlay=new PoiOverlay(mapView.getMap());
-                poiOverlay.setData(poiResult);
-                poiOverlay.addToMap();
-                poiOverlay.zoomToSpan();
+                mlist.add(pliceList);
+
             }
 
-
-        }
-        @Override
-        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        @Override//详细数据返回
-        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
-
-        }
-
-        @Override
-        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-
-        }
-    };
+    }
 
 }

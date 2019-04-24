@@ -53,7 +53,9 @@ public class SearchPoi extends AppCompatActivity {
     OnGetPoiSearchResultListener listener_1=new OnGetPoiSearchResultListener() {
         @Override
         public void onGetPoiResult(PoiResult poiResult) {
+            Log.v("sss", "233333");
             info=poiResult.getAllPoi().get(0);
+
             String url=info.getUid();
             mpoisearch.searchPoiDetail(new PoiDetailSearchOption().poiUids(url));
         }
