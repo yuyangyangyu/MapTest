@@ -123,7 +123,7 @@ public class Search extends AppCompatActivity {
                 try{
                     OkHttpClient client =new OkHttpClient();
                     Request request=new Request.Builder()
-                            .url(String.format("https://api.map.baidu.com/place/v2/search?query=景点&region=%s&output=json&ak=6aIUo3QkSTNxVTyC6ukIO5nXDSiYuLWD", city_name_1))
+                            .url(String.format("https://api.map.baidu.com/place/v2/search?query=景点&region=%s&scope=2&output=json&ak=6aIUo3QkSTNxVTyC6ukIO5nXDSiYuLWD", city_name_1))
                             .build();
                     Response response=client.newCall(request).execute();
                     Data=response.body().string();
@@ -152,9 +152,10 @@ public class Search extends AppCompatActivity {
                 JSONObject jsonObject2 =jsonObject1.getJSONObject(i);
                 Log.v("sss", String.valueOf(jsonObject2.getString("name")));
                 LatLng var1 =new LatLng((double)jsonObject2.getJSONObject("location").get("lat"),(double)jsonObject2.getJSONObject("location").get("lng"));
-
+                String url= String.valueOf(jsonObject2.getJSONObject("detail_info").get("detail_url"));
                 Distance distance=new Distance(var1,var2);
-                PliceList pliceList =new PliceList(jsonObject2.getString("name"),String.format("%.2f", distance.Long()/1000));
+                PliceList pliceList =new PliceList(jsonObject2.getString("name"),String.format("%.2f", distance.Long()/1000),
+                        url);
 
                 //向数据库添加数据
                 contentValues.put("name",jsonObject2.getString("name"));
@@ -163,6 +164,9 @@ public class Search extends AppCompatActivity {
 
                 contentValues.put("latitude", jsonObject2.getJSONObject("location").getString("lat"));
                 contentValues.put("longtitude", jsonObject2.getJSONObject("location").getString("lng"));
+
+                //添加网址
+                contentValues.put("url",url);
 
 
 

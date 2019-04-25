@@ -37,46 +37,14 @@ public class Web extends AppCompatActivity {
         actionBar.show();
         details=findViewById(R.id.details);
         Intent intent=getIntent();
-        String adress =intent.getStringExtra("adress");//获取名称
-        //查询数据库是否存在
-        data_name=new MyDataBaseHelper(this,"plan.db",null,2);
-        SQLiteDatabase DB=data_name.getWritableDatabase();
-        Cursor cursor=DB.query("Book",new String[]{"name","uid"},"name=?",new String[]{adress},
-                null,null,null);
-        cursor.moveToFirst();
-        String uid=cursor.getString(cursor.getColumnIndex("uid"));
-        cursor.close();
-        search_details=PoiSearch.newInstance();
-        search_details.setOnGetPoiSearchResultListener(listener_details);
-        search_details.searchPoiDetail(new PoiDetailSearchOption().poiUids(uid));
+        String URL =intent.getStringExtra("url");//获取详细网址
+        //未知情况
+        WebSettings settings =details.getSettings();
+        settings.setDomStorageEnabled(true);//开启DOM
+        //必须这样写 ，不然不现实页面出来
+        details.getSettings().setJavaScriptEnabled(true);
+        details.setWebViewClient(new WebViewClient());
+        details.loadUrl(URL);
     }
-    OnGetPoiSearchResultListener listener_details=new OnGetPoiSearchResultListener() {
-        @Override
-        public void onGetPoiResult(PoiResult poiResult) {
 
-        }
-
-        @Override
-        public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-
-        }
-
-        @Override
-        public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
-            //创建浏览器
-            url=poiDetailSearchResult.getPoiDetailInfoList().get(0).detailUrl;
-            //未知情况
-            WebSettings settings =details.getSettings();
-            settings.setDomStorageEnabled(true);//开启DOM
-            //必须这样写 ，不然不现实页面出来
-            details.getSettings().setJavaScriptEnabled(true);
-            details.setWebViewClient(new WebViewClient());
-            details.loadUrl(url);
-        }
-
-        @Override
-        public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
-
-        }
-    };
 }

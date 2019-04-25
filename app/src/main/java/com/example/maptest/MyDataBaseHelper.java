@@ -12,14 +12,16 @@ public class MyDataBaseHelper extends SQLiteOpenHelper {
             +"name text,"
             +"uid text,"
             +"latitude text,"
-            +"longtitude text)";
+            +"longtitude text,"
+            +"url text)";
     // 建立第二张数据表
     public static final String Plan_1="create table Category("
             +"id integer primary key autoincrement,"
             +"name text,"
             +"uid text,"
             +"latitude text,"
-            +"longtitude text)";
+            +"longtitude text,"
+            +"url text)";
 
 
 

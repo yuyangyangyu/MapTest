@@ -52,10 +52,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 int position=holder.getAdapterPosition();
-                String M=mlist.get(position).getName();
+                String M=mlist.get(position).getUrl();
                 Toast.makeText(v.getContext(),"you click"+M,Toast.LENGTH_SHORT).show();
                 Intent intent_web = new Intent(v.getContext(),Web.class);
-                intent_web.putExtra("adress",M);
+                intent_web.putExtra("url",M);
                 context.startActivity(intent_web);
 
             }
